@@ -56,6 +56,10 @@
                 <th>Bandwidth</th>
                 <td>${bandwidth}</td>
             </tr>
+            <tr>
+                <th>All Results</th>
+                <td><a href="${resultUrl}" target="_blank">View the LoadImpact Results Page</a></td>
+            </tr>
         </table>
     </c:if>
 </div>
