@@ -1,6 +1,6 @@
 package com.loadimpact.teamcity_plugin;
 
-import com.loadimpact.resource.test_result.StandardMetricResult;
+import com.loadimpact.resource.testresult.StandardMetricResult;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -8,7 +8,6 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,10 +73,10 @@ public class JsonGenerator {
 
     public String getMetrics() {
         List<MetricDescriptor> metrics = Arrays.asList(
-                new MetricDescriptor(StandardMetricResult.Metrics.bandwidth, "Bandwidth", "bits/s"),
-                new MetricDescriptor(StandardMetricResult.Metrics.failure_rate, "Failure Rate", "%"),
-                new MetricDescriptor(StandardMetricResult.Metrics.requests_per_second, "Requests per Seconds", "*/s"),
-                new MetricDescriptor(StandardMetricResult.Metrics.user_load_time, "User Load Time", "ms")
+                new MetricDescriptor(StandardMetricResult.Metrics.BANDWIDTH, "Bandwidth", "bits/s"),
+                new MetricDescriptor(StandardMetricResult.Metrics.FAILURE_RATE, "Failure Rate", "%"),
+                new MetricDescriptor(StandardMetricResult.Metrics.REQUESTS_PER_SECOND, "Requests per Seconds", "*/s"),
+                new MetricDescriptor(StandardMetricResult.Metrics.USER_LOAD_TIME, "User Load Time", "ms")
         );
 
         JsonArrayBuilder builder = Json.createArrayBuilder();

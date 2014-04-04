@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>Load-Impact-TeamCity-plugin</artifactId>
+        <artifactId>LoadImpact-TeamCity-plugin</artifactId>
         <groupId>com.loadimpact</groupId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>Load-Impact-TeamCity-plugin-agent</artifactId>
+    <artifactId>LoadImpact-TeamCity-plugin-agent</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -24,6 +24,12 @@
             <artifactId>LoadImpact-TeamCity-plugin-common</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.loadimpact</groupId>
+            <artifactId>Load-Impact-Java-SDK</artifactId>
+            <version>${loadimpact.sdk.version}</version>
         </dependency>
 
         <dependency>
@@ -52,12 +58,6 @@
             <artifactId>joda-time</artifactId>
             <version>${joda.version}</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.loadimpact</groupId>
-            <artifactId>Load-Impact-Java-SDK</artifactId>
-            <version>${loadimpact.sdk.version}</version>
         </dependency>
 
         <dependency>

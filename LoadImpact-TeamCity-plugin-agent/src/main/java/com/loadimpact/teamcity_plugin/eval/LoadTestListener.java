@@ -6,8 +6,8 @@ import com.loadimpact.exception.AbortTest;
 import com.loadimpact.exception.ApiException;
 import com.loadimpact.resource.Test;
 import com.loadimpact.resource.TestConfiguration;
-import com.loadimpact.resource.configuration.LoadSchedule;
-import com.loadimpact.resource.test_result.StandardMetricResult;
+import com.loadimpact.resource.configuration.LoadScheduleStep;
+import com.loadimpact.resource.testresult.StandardMetricResult;
 import com.loadimpact.teamcity_plugin.Constants;
 import com.loadimpact.teamcity_plugin.Debug;
 import com.loadimpact.teamcity_plugin.DelayUnit;
@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.loadimpact.resource.test_result.StandardMetricResult.Metrics;
+import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics;
 
 /**
  * DESCRIPTION
@@ -55,7 +55,7 @@ public class LoadTestListener implements RunningTestListener {
         for (int k = 1; k <= Constants.thresholdCount; ++k) {
             int thresholdValue = params.get(Constants.thresholdValueKey(k), -1);
             if (thresholdValue >= 0) {
-                Metrics         metric   = params.get(Constants.thresholdMetricKey(k), Metrics.user_load_time);
+                Metrics         metric   = params.get(Constants.thresholdMetricKey(k), Metrics.USER_LOAD_TIME);
                 Operator        operator = params.get(Constants.thresholdOperatorKey(k), Operator.greaterThan);
                 LoadTestResult  result   = params.get(Constants.thresholdResultKey(k), LoadTestResult.unstable);                
                 this.thresholds.add(new Threshold(k, metric, operator, thresholdValue, result));
@@ -68,9 +68,9 @@ public class LoadTestListener implements RunningTestListener {
         if (params.get(Constants.logReplies_key, false))
             debug.print("test-configuration: %s", configuration.toString());
 
-        totalTimeMinutes = ListUtils.reduce(configuration.schedules, 0, new ListUtils.ReduceClosure<Integer, LoadSchedule>() {
+        totalTimeMinutes = ListUtils.reduce(configuration.loadSchedule, 0, new ListUtils.ReduceClosure<Integer, LoadScheduleStep>() {
             @Override
-            public Integer eval(Integer sum, LoadSchedule s) {
+            public Integer eval(Integer sum, LoadScheduleStep s) {
                 return sum + s.duration;
             }
         });
@@ -112,7 +112,7 @@ public class LoadTestListener implements RunningTestListener {
                 state = state.moveToNext(test.status, (startTime + delayValue * 1000) < now());
                 reason = String.format("Passed %d seconds after running test start (current=%d seconds)", delayValue, (now() - startTime) / 1000);
             } else if (DelayUnit.users == delayUnit) {
-                List<? extends StandardMetricResult> results = client.getStandardMetricResults(test.id, Metrics.clients_active, null, null);
+                List<? extends StandardMetricResult> results = client.getStandardMetricResults(test.id, Metrics.CLIENTS_ACTIVE, null, null);
                 int usersCount = results.isEmpty() ? 0 : ListUtils.last(results).value.intValue();
                 state = state.moveToNext(test.status, delayValue < usersCount);
                 reason = String.format("Passed %d users (current=%d users)", delayValue, usersCount);
@@ -166,7 +166,7 @@ public class LoadTestListener implements RunningTestListener {
     }
 
     private Double getProgressPercentage(Test test, ApiTokenClient client) {
-        List<? extends StandardMetricResult> progress = client.getStandardMetricResults(test.id, Metrics.progress_percent_total, null, null);
+        List<? extends StandardMetricResult> progress = client.getStandardMetricResults(test.id, Metrics.PROGRESS_PERCENT_TOTAL, null, null);
         if (progress == null || progress.isEmpty()) return null;
         return ListUtils.last(progress).value.doubleValue();
     }

@@ -1,7 +1,6 @@
 package com.loadimpact.teamcity_plugin.eval;
 
-import com.loadimpact.resource.test_result.StandardMetricResult;
-import com.loadimpact.teamcity_plugin.Debug;
+import com.loadimpact.resource.testresult.StandardMetricResult;
 import com.loadimpact.teamcity_plugin.LoadTestResult;
 import com.loadimpact.teamcity_plugin.Operator;
 import com.loadimpact.util.ListUtils;

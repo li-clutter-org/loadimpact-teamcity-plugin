@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
     
   <groupId>com.loadimpact</groupId>
-  <artifactId>Load-Impact-TeamCity-plugin</artifactId>
+  <artifactId>LoadImpact-TeamCity-plugin</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
     

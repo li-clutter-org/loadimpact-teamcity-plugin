@@ -3,7 +3,7 @@ package com.loadimpact.teamcity_plugin;
 import com.loadimpact.ApiTokenClient;
 import com.loadimpact.resource.Test;
 import com.loadimpact.resource.TestConfiguration;
-import com.loadimpact.resource.test_result.StandardMetricResult;
+import com.loadimpact.resource.testresult.StandardMetricResult;
 import com.loadimpact.teamcity_plugin.eval.LoadTestListener;
 import com.loadimpact.util.ListUtils;
 import com.loadimpact.util.StringUtils;
@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.loadimpact.resource.test_result.StandardMetricResult.Metrics.bandwidth;
-import static com.loadimpact.resource.test_result.StandardMetricResult.Metrics.clients_active;
-import static com.loadimpact.resource.test_result.StandardMetricResult.Metrics.requests_per_second;
-import static com.loadimpact.resource.test_result.StandardMetricResult.Metrics.user_load_time;
+import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.BANDWIDTH;
+import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.CLIENTS_ACTIVE;
+import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.REQUESTS_PER_SECOND;
+import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.USER_LOAD_TIME;
 
 /**
  * DESCRIPTION
@@ -117,7 +117,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
 
     @SuppressWarnings("unchecked")
     String computeResponseTime(Test tst, ApiTokenClient client) {
-        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, user_load_time, null, null);
+        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, USER_LOAD_TIME, null, null);
         List<Double> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Double>() {
             @Override
             public Double eval(StandardMetricResult r) { return r.value.doubleValue(); }
@@ -127,7 +127,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
 
     @SuppressWarnings("unchecked")
     String computeClientsCount(Test tst, ApiTokenClient client) {
-        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, clients_active, null, null);
+        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, CLIENTS_ACTIVE, null, null);
         List<Integer> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Integer>() {
             @Override
             public Integer eval(StandardMetricResult r) { return r.value.intValue(); }
@@ -137,7 +137,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
 
     @SuppressWarnings("unchecked")
     String computeRequestsCount(Test tst, ApiTokenClient client) {
-        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, requests_per_second, null, null);
+        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, REQUESTS_PER_SECOND, null, null);
         List<Double> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Double>() {
             @Override
             public Double eval(StandardMetricResult r) { return r.value.doubleValue(); }
@@ -149,7 +149,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
     
     @SuppressWarnings("unchecked")
     String computeBandwidth(Test tst, ApiTokenClient client) {
-        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, bandwidth, null, null);
+        List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, BANDWIDTH, null, null);
         List<Double> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Double>() {
             @Override
             public Double eval(StandardMetricResult r) { return r.value.doubleValue(); }

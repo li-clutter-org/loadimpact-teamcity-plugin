@@ -1,8 +1,7 @@
 package com.loadimpact.teamcity_plugin;
 
-import com.loadimpact.resource.test_result.StandardMetricResult;
+import com.loadimpact.resource.testresult.StandardMetricResult;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

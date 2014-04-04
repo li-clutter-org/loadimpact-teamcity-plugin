@@ -30,11 +30,11 @@ public enum LoadTestState {
     }
     
     public LoadTestState moveToNext(Status status, boolean condition) {
-        if (this == notStarted && status == Status.initializing) return initializing;
-        if (this == initializing && status == Status.running) return warmingUp;
-        if (this == warmingUp && status == Status.running && condition) return checkingThresholds;
-        if (this == checkingThresholds && status == Status.running && condition) return finishing;
-        if (this == finishing && status == Status.finished) return terminated;
+        if (this == notStarted && status == Status.INITIALIZING) return initializing;
+        if (this == initializing && status == Status.RUNNING) return warmingUp;
+        if (this == warmingUp && status == Status.RUNNING && condition) return checkingThresholds;
+        if (this == checkingThresholds && status == Status.RUNNING && condition) return finishing;
+        if (this == finishing && status == Status.FINISHED) return terminated;
 
         return this;
     }

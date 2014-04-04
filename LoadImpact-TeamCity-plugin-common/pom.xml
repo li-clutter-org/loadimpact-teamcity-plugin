@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>Load-Impact-TeamCity-plugin</artifactId>
+        <artifactId>LoadImpact-TeamCity-plugin</artifactId>
         <groupId>com.loadimpact</groupId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>Load-Impact-TeamCity-plugin-common</artifactId>
+    <artifactId>LoadImpact-TeamCity-plugin-common</artifactId>
     <packaging>jar</packaging>
 
     <properties>
