@@ -1,0 +1,10 @@
+[
+    {
+        "name": "unstable",
+        "label": "Unstable"
+    },
+    {
+        "name": "failed",
+        "label": "Failed"
+    }
+]

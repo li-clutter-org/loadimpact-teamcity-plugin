@@ -1,0 +1,10 @@
+[
+    {
+        "name": "greaterThan",
+        "label": "&gt;"
+    },
+    {
+        "name": "lessThan",
+        "label": "&lt;"
+    }
+]

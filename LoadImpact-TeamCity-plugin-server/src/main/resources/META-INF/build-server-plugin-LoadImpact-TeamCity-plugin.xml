@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+        
+<!--suppress SpringBeanConstructorArgInspection -->
+<beans default-autowire="constructor">
+    
+    <bean id="settings" class="com.loadimpact.teamcity_plugin.LoadImpactSettings" />
+    
+    <bean id="settingsPage" class="com.loadimpact.teamcity_plugin.SettingsPage" />
+    
+    <bean id="settingsController" class="com.loadimpact.teamcity_plugin.SettingsController" />
+    
+    <bean id="runType" class="com.loadimpact.teamcity_plugin.LoadImpactRunType" />
+    
+    <bean id="summary" class="com.loadimpact.teamcity_plugin.LoadTestSummaryTab" />
+    
+    <bean id="results" class="com.loadimpact.teamcity_plugin.LoadImpactResultsTab" />
+    
+    <bean id="apiController" class="com.loadimpact.teamcity_plugin.ApiController" />
+    
+</beans>

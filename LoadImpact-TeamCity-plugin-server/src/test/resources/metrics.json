@@ -1,0 +1,22 @@
+[
+    {
+        "name": "bandwidth",
+        "label": "Bandwidth",
+        "unit": "bits/s"
+    },
+    {
+        "name": "failure_rate",
+        "label": "Failure Rate",
+        "unit": "%"
+    },
+    {
+        "name": "requests_per_second",
+        "label": "Requests per Seconds",
+        "unit": "*/s"
+    },
+    {
+        "name": "user_load_time",
+        "label": "User Load Time",
+        "unit": "ms"
+    }
+]
