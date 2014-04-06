@@ -12,66 +12,46 @@
     <artifactId>LoadImpact-TeamCity-plugin-agent</artifactId>
     <packaging>jar</packaging>
 
-    <properties>
-        <jersey.version>2.4</jersey.version>
-        <joda.version>2.3</joda.version>
-        <loadimpact.sdk.version>1.1.1</loadimpact.sdk.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.loadimpact</groupId>
             <artifactId>LoadImpact-TeamCity-plugin-common</artifactId>
             <version>${project.parent.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.loadimpact</groupId>
             <artifactId>Load-Impact-Java-SDK</artifactId>
-            <version>${loadimpact.sdk.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>${jersey.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
-            <version>${jersey.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-processing</artifactId>
-            <version>${jersey.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>${joda.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains.teamcity</groupId>
             <artifactId>agent-api</artifactId>
-            <version>${teamcity-version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains.teamcity</groupId>
             <artifactId>tests-support</artifactId>
-            <version>${teamcity-version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

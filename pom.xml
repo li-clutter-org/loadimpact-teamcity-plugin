@@ -1,43 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-    
-  <groupId>com.loadimpact</groupId>
-  <artifactId>LoadImpact-TeamCity-plugin</artifactId>
-  <version>1.0</version>
-  <packaging>pom</packaging>
-    
-  <properties>
-      <teamcity-version>8.0</teamcity-version>
-      <java.version>1.6</java.version>
-  </properties>
-    
-  <repositories>
-    <repository>
-        <id>JetBrains</id>
-        <url>http://repository.jetbrains.com/all</url>
-    </repository>
-  </repositories>
-    
-  <build>
-      <pluginManagement>
-          <plugins>
-              <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-compiler-plugin</artifactId>
-                  <configuration>
-                      <source>${java.version}</source>
-                      <target>${java.version}</target>
-                  </configuration>
-              </plugin>
-          </plugins>
-      </pluginManagement>
-  </build>
-    
-  <modules>
-    <module>LoadImpact-TeamCity-plugin-server</module>
-    <module>LoadImpact-TeamCity-plugin-agent</module>
-    <module>LoadImpact-TeamCity-plugin-common</module>
-    <module>build</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.loadimpact</groupId>
+    <artifactId>LoadImpact-TeamCity-plugin</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.6</java.version>
+        <loadimpact.sdk.version>1.1.1</loadimpact.sdk.version>
+        <teamcity-version>8.0</teamcity-version>
+        <jersey.version>2.4</jersey.version>
+        <joda.version>2.3</joda.version>
+        <junit.version>4.11</junit.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>JetBrains</id>
+            <url>http://repository.jetbrains.com/all</url>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.loadimpact</groupId>
+                <artifactId>Load-Impact-Java-SDK</artifactId>
+                <version>${loadimpact.sdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-multipart</artifactId>
+                <version>${jersey.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-processing</artifactId>
+                <version>${jersey.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.teamcity</groupId>
+                <artifactId>server-api</artifactId>
+                <version>${teamcity-version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.teamcity</groupId>
+                <artifactId>agent-api</artifactId>
+                <version>${teamcity-version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.teamcity</groupId>
+                <artifactId>tests-support</artifactId>
+                <version>${teamcity-version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <modules>
+        <module>LoadImpact-TeamCity-plugin-server</module>
+        <module>LoadImpact-TeamCity-plugin-agent</module>
+        <module>LoadImpact-TeamCity-plugin-common</module>
+        <module>build</module>
+    </modules>
 </project>
