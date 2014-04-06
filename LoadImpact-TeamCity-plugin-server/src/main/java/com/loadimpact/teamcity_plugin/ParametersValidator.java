@@ -1,5 +1,6 @@
 package com.loadimpact.teamcity_plugin;
 
+import com.loadimpact.util.Parameters;
 import jetbrains.buildServer.serverSide.InvalidProperty;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import org.apache.commons.lang.StringUtils;
@@ -16,18 +17,19 @@ import java.util.Map;
  */
 @SuppressWarnings("UnusedDeclaration")
 public class ParametersValidator implements PropertiesProcessor {
-    private List<InvalidProperty>   invalid = new ArrayList<InvalidProperty>();
-    private LoadTestParameters      parameters;
+    private List<InvalidProperty> invalid = new ArrayList<InvalidProperty>();
+    private Parameters parameters;
 
     @Override
     public Collection<InvalidProperty> process(Map<String, String> rawParams) {
-        parameters = new LoadTestParameters(rawParams);
+        parameters = new Parameters(rawParams);
 
         checkNotNegative(Constants.delayValue_key);
         checkNotNegativeOrZero(Constants.delaySize_key);
         checkNotNegativeOrZero(Constants.pollInterval_key);
-        
-        for (int k = 1; k <= Constants.thresholdCount; ++k) {
+
+        final int N = parameters.keys("threshold\\.\\d+\\.value").size();
+        for (int k = 1; k <= N; ++k) {
             String key = Constants.thresholdValueKey(k);
             if (parameters.has(key)) checkNotNegativeOrZero(key);
         }

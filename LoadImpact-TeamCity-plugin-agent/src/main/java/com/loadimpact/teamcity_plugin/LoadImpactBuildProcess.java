@@ -1,10 +1,12 @@
 package com.loadimpact.teamcity_plugin;
 
 import com.loadimpact.ApiTokenClient;
+import com.loadimpact.eval.LoadTestListener;
+import com.loadimpact.eval.LoadTestParameters;
+import com.loadimpact.util.Parameters;
 import com.loadimpact.resource.Test;
 import com.loadimpact.resource.TestConfiguration;
 import com.loadimpact.resource.testresult.StandardMetricResult;
-import com.loadimpact.teamcity_plugin.eval.LoadTestListener;
 import com.loadimpact.util.ListUtils;
 import com.loadimpact.util.StringUtils;
 import jetbrains.buildServer.RunBuildException;
@@ -30,7 +32,7 @@ import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.RE
 import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.USER_LOAD_TIME;
 
 /**
- * DESCRIPTION
+ * Runs the load-test build job.
  *
  * @author jens
  */
@@ -50,28 +52,28 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         final TeamCityLoadTestLogger logger = new TeamCityLoadTestLogger(build.getBuildLogger());
         logger.started("Load Test");
 
-        LoadTestParameters params = new LoadTestParameters(context.getRunnerParameters());
-        Debug.setEnabled(params.get(Constants.logDebug_key, false));
+        LoadTestParameters params =  new TeamCityLoadTestParameters(new Parameters(context.getRunnerParameters()));
+        Debug.setEnabled(params.isLogDebug()  /*params.get(Constants.logDebug_key, false)*/);
         debug.print(params.toString());
 
-        String apiToken = params.get(Constants.apiToken_key, "");
+        String apiToken = params.getApiToken() /*params.get(Constants.apiToken_key, "")*/;
         if (StringUtils.isBlank(apiToken)) {
             throw new RunBuildException("Empty API Token");
         }
         final ApiTokenClient client = new ApiTokenClient(apiToken);
-        client.setDebug(params.get(Constants.logHttp_key, false));
+        client.setDebug(params.isLogHttp()  /*params.get(Constants.logHttp_key, false)*/);
 
         TeamCityLoadTestResultListener resultListener = new TeamCityLoadTestResultListener(logger, build);
-        LoadTestListener listener = new LoadTestListener(params, logger, resultListener);
+        LoadTestListener loadTestListener = new LoadTestListener(params, logger, resultListener);
 
         logger.message("Fetching the test-configuration");
-        TestConfiguration testConfiguration = client.getTestConfiguration(params.get(Constants.testConfigurationId_key, 0));
-        listener.onSetup(testConfiguration, client);
+        TestConfiguration testConfiguration = client.getTestConfiguration(params.getTestConfigurationId()  /*params.get(Constants.testConfigurationId_key, 0)*/);
+        loadTestListener.onSetup(testConfiguration, client);
 
         logger.message("Launching the load test");
         int testId = client.startTest(testConfiguration.id);
 
-        Test test = client.monitorTest(testId, params.get(Constants.pollInterval_key, 5), listener);
+        Test test = client.monitorTest(testId,  params.getPollInterval() /*params.get(Constants.pollInterval_key, 5)*/, loadTestListener);
 
         Properties results = new Properties();
         if (test == null) {

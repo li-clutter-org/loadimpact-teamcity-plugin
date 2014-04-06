@@ -1,11 +1,11 @@
 package com.loadimpact.teamcity_plugin;
 
-import com.loadimpact.teamcity_plugin.eval.LoadTestLogger;
+import com.loadimpact.eval.LoadTestLogger;
 import com.loadimpact.util.StringUtils;
 import jetbrains.buildServer.agent.BuildProgressLogger;
 
 /**
- * DESCRIPTION
+ * Wrapper around the TC platform logger.
  *
  * @author jens
  */

@@ -1,5 +1,7 @@
 package com.loadimpact.teamcity_plugin;
 
+import com.loadimpact.eval.LoadTestResult;
+import com.loadimpact.eval.Operator;
 import com.loadimpact.resource.testresult.StandardMetricResult;
 
 import javax.json.Json;
@@ -57,8 +59,7 @@ public class JsonGenerator {
         List<LoadTestResult> results = Arrays.asList(LoadTestResult.unstable, LoadTestResult.failed);
 
         JsonArrayBuilder builder = Json.createArrayBuilder();
-        for (int i = 0; i < results.size(); i++) {
-            LoadTestResult action = results.get(i);
+        for (LoadTestResult action : results) {
             builder.add(Json.createObjectBuilder()
                             .add("name", action.getId())
                             .add("label", action.getDisplayName())
@@ -80,8 +81,7 @@ public class JsonGenerator {
         );
 
         JsonArrayBuilder builder = Json.createArrayBuilder();
-        for (int i = 0; i < metrics.size(); i++) {
-            MetricDescriptor m = metrics.get(i);
+        for (MetricDescriptor m : metrics) {
             builder.add(Json.createObjectBuilder()
                             .add("name", m.metric.name())
                             .add("label", m.label)

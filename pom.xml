@@ -10,11 +10,12 @@
 
     <properties>
         <java.version>1.6</java.version>
-        <loadimpact.sdk.version>1.1.1</loadimpact.sdk.version>
+        <loadimpact.sdk.version>1.2-SNAPSHOT</loadimpact.sdk.version>
         <teamcity-version>8.0</teamcity-version>
         <jersey.version>2.4</jersey.version>
         <joda.version>2.3</joda.version>
         <junit.version>4.11</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>

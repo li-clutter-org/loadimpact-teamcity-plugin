@@ -2,7 +2,7 @@
 <%@ page import="com.loadimpact.teamcity_plugin.LoadImpactSettings" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.loadimpact.teamcity_plugin.Debug" %>
-<%@ page import="com.loadimpact.teamcity_plugin.DelayUnit" %>
+<%--<%@ page import="com.loadimpact.eval.DelayUnit" %>--%>
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
 <%@ taglib prefix="l" tagdir="/WEB-INF/tags/layout" %>
 <%@ taglib prefix="bs" tagdir="/WEB-INF/tags" %>
@@ -29,7 +29,7 @@
                                      : "";
     request.setAttribute("chosenTestConfiguration", chosenTestConfiguration);
     
-    request.setAttribute("delayUnits", DelayUnit.values());
+    request.setAttribute("delayUnits", com.loadimpact.eval.DelayUnit.values());
     request.setAttribute("apiToken", LoadImpactSettings.instance().getApiToken());
 %>
 

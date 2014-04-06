@@ -2,6 +2,10 @@ package com.loadimpact.teamcity_plugin.eval;
 
 import com.loadimpact.ApiTokenClient;
 import com.loadimpact.RunningTestListener;
+import com.loadimpact.eval.LoadTestLogger;
+import com.loadimpact.eval.LoadTestResultListener;
+import com.loadimpact.eval.LoadTestState;
+import com.loadimpact.util.Parameters;
 import com.loadimpact.exception.AbortTest;
 import com.loadimpact.exception.ApiException;
 import com.loadimpact.resource.Test;
@@ -10,12 +14,9 @@ import com.loadimpact.resource.configuration.LoadScheduleStep;
 import com.loadimpact.resource.testresult.StandardMetricResult;
 import com.loadimpact.teamcity_plugin.Constants;
 import com.loadimpact.teamcity_plugin.Debug;
-import com.loadimpact.teamcity_plugin.DelayUnit;
-import com.loadimpact.teamcity_plugin.LoadTestParameters;
-import com.loadimpact.teamcity_plugin.LoadTestResult;
-import com.loadimpact.teamcity_plugin.Operator;
-import com.loadimpact.teamcity_plugin.Util;
+import com.loadimpact.eval.DelayUnit;
 import com.loadimpact.util.ListUtils;
+import com.loadimpact.util.StringUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,10 +29,11 @@ import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics;
  *
  * @author jens
  */
+@Deprecated
 public class LoadTestListener implements RunningTestListener {
     private final Debug                  debug;
     private final LoadTestLogger         logger;
-    private final LoadTestParameters     params;
+    private final Parameters             params;
     private       LoadTestState          state;
     private       int                    totalTimeMinutes;
     private       Long                   startTime;
@@ -41,7 +43,7 @@ public class LoadTestListener implements RunningTestListener {
     private final LoadTestResultListener loadTestResultListener;
 
 
-    public LoadTestListener(LoadTestParameters params, LoadTestLogger logger, LoadTestResultListener loadTestResultListener) {
+    public LoadTestListener(Parameters params, LoadTestLogger logger, LoadTestResultListener loadTestResultListener) {
         this.debug = new Debug(this);
         this.params = params;
         this.logger = logger;
@@ -49,18 +51,18 @@ public class LoadTestListener implements RunningTestListener {
         this.state = LoadTestState.notStarted;
         this.lastPercentage = -1D;
 
-        BoundedDroppingQueue.setDefaultSize(params.get(Constants.delaySize_key, 1));
-
+//        BoundedDroppingQueue.setDefaultSize(params.get(Constants.delaySize_key, 1));
+//
         this.thresholds = new ArrayList<Threshold>();
-        for (int k = 1; k <= Constants.thresholdCount; ++k) {
-            int thresholdValue = params.get(Constants.thresholdValueKey(k), -1);
-            if (thresholdValue >= 0) {
-                Metrics         metric   = params.get(Constants.thresholdMetricKey(k), Metrics.USER_LOAD_TIME);
-                Operator        operator = params.get(Constants.thresholdOperatorKey(k), Operator.greaterThan);
-                LoadTestResult  result   = params.get(Constants.thresholdResultKey(k), LoadTestResult.unstable);                
-                this.thresholds.add(new Threshold(k, metric, operator, thresholdValue, result));
-            }
-        }
+//        for (int k = 1; k <= Constants.thresholdCount; ++k) {
+//            int thresholdValue = params.get(Constants.thresholdValueKey(k), -1);
+//            if (thresholdValue >= 0) {
+//                Metrics metric = params.get(Constants.thresholdMetricKey(k), Metrics.USER_LOAD_TIME);
+//                Operator operator = params.get(Constants.thresholdOperatorKey(k), Operator.greaterThan);
+//                LoadTestResult result = params.get(Constants.thresholdResultKey(k), LoadTestResult.unstable);
+//                this.thresholds.add(new Threshold(k, metric, operator, thresholdValue, result));
+//            }
+//        }
     }
 
     @SuppressWarnings("UnusedParameters")
@@ -89,7 +91,7 @@ public class LoadTestListener implements RunningTestListener {
             if (percentage != null && lastPercentage < percentage) {
                 lastPercentage = percentage;
                 logger.message(String.format("Running: %s (~ %.1f minutes remaining)",
-                        Util.percentageBar(percentage),
+                        StringUtils.percentageBar(percentage),
                         totalTimeMinutes * (100D - percentage) / 100D
                 ));
             }
@@ -97,7 +99,7 @@ public class LoadTestListener implements RunningTestListener {
             if (state != lastState) logger.message("Load Test State: " + state);
         }
 
-        if (resultsUrl == null && Util.startsWith(test.publicUrl, "http")) {
+        if (resultsUrl == null && StringUtils.startsWith(test.publicUrl, "http")) {
             resultsUrl = test.publicUrl;
             logger.message(String.format("Start sending load traffic [%d] %s", test.id, test.title));
             logger.message("Follow the test progress at " + test.publicUrl);
@@ -128,7 +130,7 @@ public class LoadTestListener implements RunningTestListener {
                 debug.print("Checking %s", t);
 
                 if (t.isExceeded()) {
-                    loadTestResultListener.markAs(t.getResult(), t.getReason());
+//                    loadTestResultListener.markAs(t.getResult(), t.getReason());
                     debug.print("Threshold %d EXCEEDED: Build marked %s. Reason: %s", t.getId(), t.getResult().getDisplayName(), t.getReason());
 
                     if (loadTestResultListener.isFailure() && params.get(Constants.abortAtFailure_key, false)) {
@@ -161,7 +163,7 @@ public class LoadTestListener implements RunningTestListener {
     @Override
     public void onError(ApiException e) {
         logger.failure("Load Test Internal Error: " + e);
-        loadTestResultListener.markAs(LoadTestResult.error, e.toString());
+//        loadTestResultListener.markAs(LoadTestResult.error, e.toString());
         loadTestResultListener.stopBuild();
     }
 

@@ -10,6 +10,7 @@ import java.util.Arrays;
  * @author jens
  */
 @SuppressWarnings("UnusedDeclaration")
+@Deprecated
 public enum LoadTestState {
     notStarted, initializing, warmingUp, checkingThresholds, finishing, terminated;
 

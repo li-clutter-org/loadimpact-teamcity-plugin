@@ -1,6 +1,6 @@
 package com.loadimpact.teamcity_plugin.eval;
 
-import com.loadimpact.teamcity_plugin.LoadTestResult;
+import com.loadimpact.eval.LoadTestResult;
 import jetbrains.buildServer.agent.BuildFinishedStatus;
 
 /**
@@ -8,6 +8,7 @@ import jetbrains.buildServer.agent.BuildFinishedStatus;
  *
  * @author jens
  */
+@Deprecated
 public interface LoadTestResultListener {
 
     void markAs(LoadTestResult result, String reason);

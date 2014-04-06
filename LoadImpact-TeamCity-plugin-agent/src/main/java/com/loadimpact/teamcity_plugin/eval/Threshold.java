@@ -1,8 +1,9 @@
 package com.loadimpact.teamcity_plugin.eval;
 
+import com.loadimpact.eval.LoadTestResult;
+import com.loadimpact.eval.Operator;
+import com.loadimpact.eval.BoundedDroppingQueue;
 import com.loadimpact.resource.testresult.StandardMetricResult;
-import com.loadimpact.teamcity_plugin.LoadTestResult;
-import com.loadimpact.teamcity_plugin.Operator;
 import com.loadimpact.util.ListUtils;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * @author jens
  */
+@Deprecated
 public class Threshold {
     private final int                           id;
     private final StandardMetricResult.Metrics  metric;

@@ -11,6 +11,9 @@ import jetbrains.buildServer.agent.artifacts.ArtifactsWatcher;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Descriptor for the load-test job.
+ */
 public class LoadImpactAgentBuildRunner implements AgentBuildRunner, AgentBuildRunnerInfo {
     private static final Logger LOG = Logger.getLogger(LoadImpactAgentBuildRunner.class);
     @NotNull

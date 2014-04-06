@@ -10,6 +10,7 @@ import java.util.List;
  * @author jens
  */
 @SuppressWarnings("unchecked")
+@Deprecated
 public class BoundedDroppingQueue <ElementType> implements Iterable<ElementType> {
     private static int defaultSize = 1;
     private final Object[] elements;

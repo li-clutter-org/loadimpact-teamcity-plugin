@@ -5,6 +5,7 @@ package com.loadimpact.teamcity_plugin.eval;
  *
  * @author jens
  */
+@Deprecated
 public interface LoadTestLogger {
 
     void started(String msg);

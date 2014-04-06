@@ -6,6 +6,7 @@ import jetbrains.buildServer.serverSide.RunTypeRegistry;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.loadimpact.eval.DelayUnit;
 
 import java.util.HashMap;
 import java.util.Map;

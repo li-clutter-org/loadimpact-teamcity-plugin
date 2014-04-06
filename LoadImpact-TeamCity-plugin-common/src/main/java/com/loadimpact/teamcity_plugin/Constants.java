@@ -14,26 +14,26 @@ public class Constants {
     public static final String delaySize_key      = "delay.size";
     public static final String abortAtFailure_key = "abort.failure";
 
-    public static final int    thresholdCount           = 4;
-    public static final String threshold_1_metric_key   = "threshold.1.metric";
-    public static final String threshold_1_operator_key = "threshold.1.operator";
-    public static final String threshold_1_value_key    = "threshold.1.value";
-    public static final String threshold_1_result_key   = "threshold.1.result";
-
-    public static final String threshold_2_metric_key   = "threshold.2.metric";
-    public static final String threshold_2_operator_key = "threshold.2.operator";
-    public static final String threshold_2_value_key    = "threshold.2.value";
-    public static final String threshold_2_result_key   = "threshold.2.result";
-
-    public static final String threshold_3_metric_key   = "threshold.3.metric";
-    public static final String threshold_3_operator_key = "threshold.3.operator";
-    public static final String threshold_3_value_key    = "threshold.3.value";
-    public static final String threshold_3_result_key   = "threshold.3.result";
-
-    public static final String threshold_4_metric_key   = "threshold.4.metric";
-    public static final String threshold_4_operator_key = "threshold.4.operator";
-    public static final String threshold_4_value_key    = "threshold.4.value";
-    public static final String threshold_4_result_key   = "threshold.4.result";
+//    public static final int    thresholdCount           = 4;
+//    public static final String threshold_1_metric_key   = "threshold.1.metric";
+//    public static final String threshold_1_operator_key = "threshold.1.operator";
+//    public static final String threshold_1_value_key    = "threshold.1.value";
+//    public static final String threshold_1_result_key   = "threshold.1.result";
+//
+//    public static final String threshold_2_metric_key   = "threshold.2.metric";
+//    public static final String threshold_2_operator_key = "threshold.2.operator";
+//    public static final String threshold_2_value_key    = "threshold.2.value";
+//    public static final String threshold_2_result_key   = "threshold.2.result";
+//
+//    public static final String threshold_3_metric_key   = "threshold.3.metric";
+//    public static final String threshold_3_operator_key = "threshold.3.operator";
+//    public static final String threshold_3_value_key    = "threshold.3.value";
+//    public static final String threshold_3_result_key   = "threshold.3.result";
+//
+//    public static final String threshold_4_metric_key   = "threshold.4.metric";
+//    public static final String threshold_4_operator_key = "threshold.4.operator";
+//    public static final String threshold_4_value_key    = "threshold.4.value";
+//    public static final String threshold_4_result_key   = "threshold.4.result";
 
     public static final String pollInterval_key = "poll.interval";
     public static final String logHttp_key      = "log.http";

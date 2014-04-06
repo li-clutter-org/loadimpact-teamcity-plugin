@@ -13,14 +13,12 @@
     <packaging>jar</packaging>
 
     <properties>
-        <loadimpact.sdk.version>1.1.1</loadimpact.sdk.version>
     </properties>
     
     <dependencies>
         <dependency>
             <groupId>com.loadimpact</groupId>
             <artifactId>Load-Impact-Java-SDK</artifactId>
-            <version>${loadimpact.sdk.version}</version>
         </dependency>
     </dependencies>
 
