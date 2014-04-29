@@ -74,10 +74,18 @@ public class JsonGenerator {
 
     public String getMetrics() {
         List<MetricDescriptor> metrics = Arrays.asList(
-                new MetricDescriptor(StandardMetricResult.Metrics.BANDWIDTH, "Bandwidth", "bits/s"),
-                new MetricDescriptor(StandardMetricResult.Metrics.FAILURE_RATE, "Failure Rate", "%"),
-                new MetricDescriptor(StandardMetricResult.Metrics.REQUESTS_PER_SECOND, "Requests per Seconds", "*/s"),
-                new MetricDescriptor(StandardMetricResult.Metrics.USER_LOAD_TIME, "User Load Time", "ms")
+                new MetricDescriptor(StandardMetricResult.Metrics.ACCUMULATED_LOAD_TIME     , "Accumulated Load Time"     , "ms"),
+                new MetricDescriptor(StandardMetricResult.Metrics.BANDWIDTH                 , "Bandwidth"                 , "bits/s"),
+                new MetricDescriptor(StandardMetricResult.Metrics.CONNECTIONS_ACTIVE        , "Connections Active"        , "*"),
+                new MetricDescriptor(StandardMetricResult.Metrics.FAILURE_RATE              , "Failure Rate"              , "%"),
+                new MetricDescriptor(StandardMetricResult.Metrics.LOADGEN_CPU_UTILIZATION   , "LoadGen CPU Utilization"   , "%"),
+                new MetricDescriptor(StandardMetricResult.Metrics.LOADGEN_MEMORY_UTILIZATION, "LoadGen Memory Utilization", "%"),
+                new MetricDescriptor(StandardMetricResult.Metrics.REPS_FAILED_PERCENT       , "Repetitions Failed"        , "%"),
+                new MetricDescriptor(StandardMetricResult.Metrics.REPS_SUCCEEDED_PERCENT    , "Repetitions Succeeded"     , "%"),
+                new MetricDescriptor(StandardMetricResult.Metrics.REQUESTS_PER_SECOND       , "Requests per Seconds"      , "*/s"),
+                new MetricDescriptor(StandardMetricResult.Metrics.TOTAL_RX_BYTES            , "Total Data Received"       , "bytes"),
+                new MetricDescriptor(StandardMetricResult.Metrics.TOTAL_REQUESTS            , "Total HTTP Requests"       , "*"),
+                new MetricDescriptor(StandardMetricResult.Metrics.USER_LOAD_TIME            , "User Load Time"            , "ms")
         );
 
         JsonArrayBuilder builder = Json.createArrayBuilder();
