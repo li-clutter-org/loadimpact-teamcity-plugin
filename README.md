@@ -1,6 +1,5 @@
-[ ![Download](https://api.bintray.com/packages/loadimpact/loadimpact-sdk-java/loadimpact-sdk-java/images/download.svg) ](https://bintray.com/loadimpact//loadimpact-teamcity-plugin/_latestVersion)
-Load Impact TeamCity Plugin 
-==========================
+# Load Impact TeamCity Plugin  <!-- [ ![Download](https://api.bintray.com/packages/loadimpact/loadimpact-sdk-java/loadimpact-sdk-java/images/download.svg) ](https://bintray.com/loadimpact//loadimpact-teamcity-plugin/_latestVersion) --> 
+
 
 A plugin for the [TeamCity CI Server](https://www.jetbrains.com/teamcity/), that run load-tests 
 hosted on [Load Impact](https://loadimpact.com/), as a build step. 
@@ -8,7 +7,7 @@ hosted on [Load Impact](https://loadimpact.com/), as a build step.
 Where to get it?
 ----
 
-* At the [Load Impact BinTray repo](https://bintray.com/loadimpact//loadimpact-teamcity-plugin/_latestVersion)
+<!-- * At the [Load Impact BinTray repo](https://bintray.com/loadimpact//loadimpact-teamcity-plugin/_latestVersion) -->
 * At the [Load Impact Developers page](http://developers.loadimpact.com/continuous-delivery/index.html#li-docs-cd-teamcity)
 * At the [TeamCity plugins list](https://confluence.jetbrains.com/display/TW/TeamCity+Plugins)
 * By cloning this [GitHub repo](https://github.com/loadimpact/loadimpact-teamcity-plugin) and building it using the instructions below
