@@ -1,4 +1,5 @@
-Load Impact TeamCity Plugin, version 1.4 [ ![Download](https://api.bintray.com/packages/loadimpact/loadimpact-teamcity-plugin/images/download.svg) ](https://bintray.com/loadimpact//loadimpact-teamcity-plugin/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/loadimpact/loadimpact-sdk-java/loadimpact-sdk-java/images/download.svg) ](https://bintray.com/loadimpact//loadimpact-teamcity-plugin/_latestVersion)
+Load Impact TeamCity Plugin 
 ==========================
 
 A plugin for the [TeamCity CI Server](https://www.jetbrains.com/teamcity/), that run load-tests 
