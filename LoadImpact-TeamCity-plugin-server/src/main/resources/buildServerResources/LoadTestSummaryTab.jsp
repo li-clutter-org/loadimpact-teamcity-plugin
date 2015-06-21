@@ -32,18 +32,22 @@
                     <td class="error">${reason}</td>
                 </tr>
             </c:if>
-            <tr>
-                <th>Target</th>
-                <td><a href="${targetUrl}">${targetUrl}</a></td>
-            </tr>
+            <c:if test="${not empty targetUrl}">
+                <tr>
+                    <th>Target</th>
+                    <td><a href="${targetUrl}">${targetUrl}</a></td>
+                </tr>
+            </c:if>
             <tr>
                 <th>Elapsed Time</th>
                 <td>${elapsedTime}</td>
             </tr>
-            <tr>
-                <th>User Load Time</th>
-                <td>${responseTime}</td>
-            </tr>
+            <c:if test="${not empty responseTime}">
+                <tr>
+                    <th>User Load Time</th>
+                    <td>${responseTime}</td>
+                </tr>
+            </c:if>
             <tr>
                 <th>Clients</th>
                 <td>${clientsCount}</td>
@@ -57,8 +61,16 @@
                 <td>${bandwidth}</td>
             </tr>
             <tr>
-                <th>All Results</th>
-                <td><a href="${resultUrl}" target="_blank">View the LoadImpact Results Page</a></td>
+                <th>Test Results</th>
+                <td>
+                    <c:if test="${empty resultUrl}">
+                        <a href="https://app.loadimpact.com/account/login" target="_blank" class="btn">Login to Load
+                                                                                                       Impact</a>
+                    </c:if>
+                    <c:if test="${not empty resultUrl}">
+                        <a href="${resultUrl}" target="_blank">View the LoadImpact Results Page</a>
+                    </c:if>
+                </td>
             </tr>
         </table>
     </c:if>

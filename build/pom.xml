@@ -5,7 +5,7 @@
   <parent>
     <artifactId>LoadImpact-TeamCity-plugin</artifactId>
     <groupId>com.loadimpact</groupId>
-    <version>1.0</version>
+    <version>1.4</version>
   </parent>
     
   <artifactId>build</artifactId>
@@ -53,7 +53,8 @@
                 <replacements>
                     <replacement>
                         <token>@Version@</token>
-                        <value>snapshot-${maven.build.timestamp}</value>
+                        <!--<value>snapshot-${maven.build.timestamp}</value>-->
+                        <value>${project.parent.version}</value>
                     </replacement>
                 </replacements>                        
             </configuration>

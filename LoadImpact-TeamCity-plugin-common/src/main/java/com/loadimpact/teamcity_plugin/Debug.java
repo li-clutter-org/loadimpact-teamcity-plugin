@@ -37,7 +37,7 @@ public class Debug {
 
     public Debug print(String msg) {
         if (enabled) {
-            String logtxt = String.format("*** [%2$s] %1$tF %1$tT%4$s*** %3$s%n", new Date(), prefix, msg, System.getProperty("line.separator"));
+            String logtxt = String.format("*** [%2$s] %1$tF %1$tT%4$s    %3$s%n", new Date(), prefix, msg, System.getProperty("line.separator"));
             System.out.print(logtxt);
             System.out.flush();
         }

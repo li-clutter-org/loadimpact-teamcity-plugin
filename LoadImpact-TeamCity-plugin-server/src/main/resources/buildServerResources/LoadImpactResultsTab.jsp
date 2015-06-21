@@ -9,6 +9,13 @@
 %>
 
 <c:if test="${hasResults}">
+    <c:if test="${empty resultUrl}">
+        <p style="text-align: center">
+            Sorry, no public URL to the test result was published for this test result.
+            Please, login to your Load Impact account<br/>
+            <a href="https://app.loadimpact.com/account/login" class="btn">Login to Load Impact</a>
+        </p>
+    </c:if>
     <c:if test="${not empty resultUrl}">
         <iframe width="1200" height="1200" src="${resultUrl}">
             <p>Your browser does not support iframes.</p>

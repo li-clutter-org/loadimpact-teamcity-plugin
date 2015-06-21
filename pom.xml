@@ -5,12 +5,15 @@
 
     <groupId>com.loadimpact</groupId>
     <artifactId>LoadImpact-TeamCity-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.4</version>
     <packaging>pom</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.6</java.version>
-        <loadimpact.sdk.version>1.2-SNAPSHOT</loadimpact.sdk.version>
+        
+        <loadimpact.sdk.version>1.4.1</loadimpact.sdk.version>
+        
         <teamcity-version>8.0</teamcity-version>
         <jersey.version>2.4</jersey.version>
         <joda.version>2.3</joda.version>
@@ -23,42 +26,20 @@
             <id>JetBrains</id>
             <url>http://repository.jetbrains.com/all</url>
         </repository>
+        
+        <repository>
+            <id>bintray</id>
+            <url>http://dl.bintray.com/loadimpact/loadimpact-sdk-java</url>
+        </repository>
     </repositories>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.loadimpact</groupId>
-                <artifactId>Load-Impact-Java-SDK</artifactId>
+                <artifactId>loadimpact-sdk-java</artifactId>
                 <version>${loadimpact.sdk.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jersey.core</groupId>
-                <artifactId>jersey-client</artifactId>
-                <version>${jersey.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-multipart</artifactId>
-                <version>${jersey.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-processing</artifactId>
-                <version>${jersey.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda.version}</version>
-                <scope>compile</scope>
+                <classifier>withDepends</classifier>
             </dependency>
 
             <dependency>
@@ -80,6 +61,13 @@
                 <artifactId>tests-support</artifactId>
                 <version>${teamcity-version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda.version}</version>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>

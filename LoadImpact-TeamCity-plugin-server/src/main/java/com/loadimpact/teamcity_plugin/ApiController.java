@@ -22,14 +22,15 @@ import java.io.StringWriter;
 import java.util.List;
 
 /**
- * AJAX controller that proxies WS invocations to the LoadImpact REST API. 
+ * AJAX controller that proxies WS invocations to the LoadImpact REST API.
  *
  * @author jens
  */
 public class ApiController extends BaseController {
     private final       Debug  debug = new Debug(this);
     public static final String URI   = "/loadImpactProxy.html";
-    @NotNull private final LoadImpactSettings settings;
+    @NotNull
+    private final LoadImpactSettings settings;
 
     public ApiController(@NotNull SBuildServer server, @NotNull WebControllerManager web, @NotNull LoadImpactSettings settings) {
         super(server);
@@ -41,11 +42,11 @@ public class ApiController extends BaseController {
     @Nullable
     @Override
     protected ModelAndView doHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws Exception {
-        debug.print("doHandle");
-        
         String task = request.getParameter("task");
+        debug.print("doHandle: task=%s", task);
+
         settings.load();
-        
+
         PrintWriter out = response.getWriter();
         try {
             if (StringUtils.isBlank(settings.getApiToken())) {
@@ -64,6 +65,8 @@ public class ApiController extends BaseController {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Illegal task '" + task + "'");
             }
         } catch (Exception e) {
+            debug.print("Exception: %s", e);
+            e.printStackTrace();
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.toString());
         }
         out.flush();
@@ -73,7 +76,7 @@ public class ApiController extends BaseController {
 
     protected void help(PrintWriter out) {
         debug.print("help");
-        
+
         out.println("Foobar AJAX Tasks");
         out.println("- help");
         out.println("- testConfigurations");
@@ -90,17 +93,17 @@ public class ApiController extends BaseController {
         TestConfiguration cfg = client.getTestConfiguration(Integer.parseInt(id));
 
         JsonObject obj = Json.createObjectBuilder()
-                             .add("id", cfg.id)
-                             .add("name", cfg.name)
-                             .add("url", cfg.url.toString())
-                             .build();
+                .add("id", cfg.id)
+                .add("name", cfg.name)
+                .add("url", cfg.url.toString())
+                .build();
 
         StringWriter buf = new StringWriter();
         Json.createWriter(buf).writeObject(obj);
         String payload = buf.toString();
 
         debug.print("testConfiguration: %s", payload);
-        out.println(payload);        
+        out.println(payload);
     }
 
     protected void testConfigurations(PrintWriter out) {
@@ -109,14 +112,20 @@ public class ApiController extends BaseController {
         ApiTokenClient client = new ApiTokenClient(settings.getApiToken());
         client.setDebug(true);
         List<TestConfiguration> testConfigurations = client.getTestConfigurations();
+        {
+            int cnt = 1;
+            for (TestConfiguration tc : testConfigurations) {
+                debug.print("[%d] %s", cnt++, tc);
+            }
+        }
 
         JsonArrayBuilder builder = Json.createArrayBuilder();
         for (TestConfiguration cfg : testConfigurations) {
             JsonObject obj = Json.createObjectBuilder()
-                                 .add("id", cfg.id)
-                                 .add("name", cfg.name)
-                                 .add("url", cfg.url.toString())
-                                 .build();
+                    .add("id", cfg.id)
+                    .add("name", cfg.name)
+                    .add("url", toString(cfg.url))
+                    .build();
             builder.add(obj);
         }
 
@@ -127,7 +136,12 @@ public class ApiController extends BaseController {
         debug.print("testConfigurations: %s", payload);
         out.println(payload);
     }
-    
-    
-    
+
+    private String toString(final Object obj) {
+        if (obj == null) return "";
+        String result = obj.toString();
+        if (result == null) return "";
+        return result;
+    }
+
 }

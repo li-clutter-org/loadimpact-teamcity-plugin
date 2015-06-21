@@ -6,7 +6,7 @@
     <parent>
         <artifactId>LoadImpact-TeamCity-plugin</artifactId>
         <groupId>com.loadimpact</groupId>
-        <version>1.0</version>
+        <version>1.4</version>
     </parent>
 
     <artifactId>LoadImpact-TeamCity-plugin-common</artifactId>
@@ -18,7 +18,8 @@
     <dependencies>
         <dependency>
             <groupId>com.loadimpact</groupId>
-            <artifactId>Load-Impact-Java-SDK</artifactId>
+            <artifactId>loadimpact-sdk-java</artifactId>
+            <classifier>withDepends</classifier>
         </dependency>
     </dependencies>
 

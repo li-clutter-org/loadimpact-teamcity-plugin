@@ -52,7 +52,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         final TeamCityLoadTestLogger logger = new TeamCityLoadTestLogger(build.getBuildLogger());
         logger.started("Load Test");
 
-        LoadTestParameters params =  new TeamCityLoadTestParameters(new Parameters(context.getRunnerParameters()));
+        LoadTestParameters params = new TeamCityLoadTestParameters(new Parameters(context.getRunnerParameters()));
         Debug.setEnabled(params.isLogDebug()  /*params.get(Constants.logDebug_key, false)*/);
         debug.print(params.toString());
 
@@ -63,8 +63,8 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         final ApiTokenClient client = new ApiTokenClient(apiToken);
         client.setDebug(params.isLogHttp()  /*params.get(Constants.logHttp_key, false)*/);
 
-        TeamCityLoadTestResultListener resultListener = new TeamCityLoadTestResultListener(logger, build);
-        LoadTestListener loadTestListener = new LoadTestListener(params, logger, resultListener);
+        TeamCityLoadTestResultListener resultListener   = new TeamCityLoadTestResultListener(logger, build);
+        LoadTestListener               loadTestListener = new LoadTestListener(params, logger, resultListener);
 
         logger.message("Fetching the test-configuration");
         TestConfiguration testConfiguration = client.getTestConfiguration(params.getTestConfigurationId()  /*params.get(Constants.testConfigurationId_key, 0)*/);
@@ -73,7 +73,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         logger.message("Launching the load test");
         int testId = client.startTest(testConfiguration.id);
 
-        Test test = client.monitorTest(testId,  params.getPollInterval() /*params.get(Constants.pollInterval_key, 5)*/, loadTestListener);
+        Test test = client.monitorTest(testId, params.getPollInterval() /*params.get(Constants.pollInterval_key, 5)*/, loadTestListener);
 
         Properties results = new Properties();
         if (test == null) {
@@ -94,7 +94,7 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         }
         File file = storeResultProperties(results);
         debug.print("--- Load Test Results ---%nFile=%s%n%s", file, toString(results));
-        
+
         logger.finished(null);
         return resultListener.getStatus();
     }
@@ -102,8 +102,8 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
     Properties populateResults(Properties results, Test tst, ApiTokenClient client) {
         results.setProperty("testId", Integer.toString(tst.id));
         results.setProperty("testName", tst.title);
-        results.setProperty("targetUrl", tst.url.toString());
-        results.setProperty("resultUrl", tst.publicUrl.toString() + "/embed");
+        results.setProperty("targetUrl", toString(tst.url));
+        results.setProperty("resultUrl", toString(tst.publicUrl, "/embed"));
         results.setProperty("elapsedTime", computeElapsedTime(tst));
         results.setProperty("responseTime", computeResponseTime(tst, client));
         results.setProperty("clientsCount", computeClientsCount(tst, client));
@@ -112,7 +112,20 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
 
         return results;
     }
-    
+
+    private String toString(final Object obj, final String suffix) {
+        String prefix = toString(obj);
+        if (prefix.isEmpty()) return "";
+        return prefix + suffix;
+    }
+
+    private String toString(final Object obj) {
+        if (obj == null) return "";
+        String result = obj.toString();
+        if (result == null) return "";
+        return result;
+    }
+
     String computeElapsedTime(Test tst) {
         return timeFmt().print(new Period(tst.started.getTime(), tst.ended.getTime()));
     }
@@ -122,7 +135,9 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, USER_LOAD_TIME, null, null);
         List<Double> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Double>() {
             @Override
-            public Double eval(StandardMetricResult r) { return r.value.doubleValue(); }
+            public Double eval(StandardMetricResult r) {
+                return r.value.doubleValue();
+            }
         });
         return timeFmt().print(new Period((long) ListUtils.average(values)));
     }
@@ -132,7 +147,9 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, CLIENTS_ACTIVE, null, null);
         List<Integer> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Integer>() {
             @Override
-            public Integer eval(StandardMetricResult r) { return r.value.intValue(); }
+            public Integer eval(StandardMetricResult r) {
+                return r.value.intValue();
+            }
         });
         return String.valueOf(Collections.max(values));
     }
@@ -142,30 +159,34 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, REQUESTS_PER_SECOND, null, null);
         List<Double> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Double>() {
             @Override
-            public Double eval(StandardMetricResult r) { return r.value.doubleValue(); }
+            public Double eval(StandardMetricResult r) {
+                return r.value.doubleValue();
+            }
         });
         int avg = (int) ListUtils.average(values);
         int max = Collections.max(values).intValue();
         return String.format("%d (max %d) requests per second", avg, max);
     }
-    
+
     @SuppressWarnings("unchecked")
     String computeBandwidth(Test tst, ApiTokenClient client) {
         List<StandardMetricResult> results = (List<StandardMetricResult>) client.getStandardMetricResults(tst.id, BANDWIDTH, null, null);
         List<Double> values = ListUtils.map(results, new ListUtils.MapClosure<StandardMetricResult, Double>() {
             @Override
-            public Double eval(StandardMetricResult r) { return r.value.doubleValue(); }
+            public Double eval(StandardMetricResult r) {
+                return r.value.doubleValue();
+            }
         });
         double avg = ListUtils.average(values) / 1E6;
         double max = Collections.max(values).intValue() / 1E6;
         return String.format("%.3f (max %.3f) MBits per second", avg, max);
     }
-    
+
 
     File storeResultProperties(Properties p) throws IOException {
-        File buildDir = build.getBuildTempDirectory();
-        File resultsFile = new File(buildDir, Constants.resultsFile);
-        FileWriter fileWriter = new FileWriter(resultsFile);
+        File       buildDir    = build.getBuildTempDirectory();
+        File       resultsFile = new File(buildDir, Constants.resultsFile);
+        FileWriter fileWriter  = new FileWriter(resultsFile);
         p.store(fileWriter, "");
         fileWriter.close();
         artifactsWatcher.addNewArtifactsPath(resultsFile.getAbsolutePath());
