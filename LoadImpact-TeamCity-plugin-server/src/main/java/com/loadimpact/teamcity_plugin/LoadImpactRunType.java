@@ -3,6 +3,7 @@ package com.loadimpact.teamcity_plugin;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
 import jetbrains.buildServer.serverSide.RunTypeRegistry;
+import jetbrains.buildServer.serverSide.SBuildServer;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class LoadImpactRunType extends RunType {
     @NotNull
     private final Map<String, String> defaultParameters;
 
-    public LoadImpactRunType(@NotNull RunTypeRegistry registry, @NotNull PluginDescriptor descriptor, @NotNull LoadImpactSettings settings) {
+    public LoadImpactRunType(@NotNull RunTypeRegistry registry, @NotNull PluginDescriptor descriptor, @NotNull LoadImpactSettings settings, @NotNull SBuildServer server) {
         this.descriptor = descriptor;
         this.settings = settings;
         this.defaultParameters = new HashMap<String, String>();
@@ -33,6 +34,7 @@ public class LoadImpactRunType extends RunType {
 
     private void initDefaultParams() {
         addDefault(Constants.apiToken_key, settings.getApiToken());
+        addDefault(Constants.teamCityVersion_key, settings.getTeamCityVersion());
 
         addDefault(Constants.delayValue_key, 2);
         addDefault(Constants.delayUnit_key, DelayUnit.users.name());

@@ -35,7 +35,7 @@ public class TeamCityLoadTestParameters implements LoadTestParameters {
     @Override
     public Threshold[] getThresholds() {
         Set<String> keys = parameters.keys("threshold\\.\\d+\\.value");
-        final int N = keys.size();
+        final int   N    = keys.size();
 
         Threshold[] thresholds = new Threshold[N];
         for (int k = 1; k <= N; ++k) {
@@ -48,7 +48,7 @@ public class TeamCityLoadTestParameters implements LoadTestParameters {
                 thresholds[k - 1] = new Threshold(k, metric, operator, thresholdValue, result);
             }
         }
-        
+
         return thresholds;
     }
 
@@ -66,7 +66,7 @@ public class TeamCityLoadTestParameters implements LoadTestParameters {
     public int getDelaySize() {
         return parameters.get(Constants.delaySize_key, 1);
     }
-    
+
     @Override
     public boolean isAbortAtFailure() {
         return parameters.get(Constants.abortAtFailure_key, false);
@@ -91,5 +91,14 @@ public class TeamCityLoadTestParameters implements LoadTestParameters {
     public boolean isLogDebug() {
         return parameters.get(Constants.logDebug_key, false);
     }
+
+    String getTeamCityVersion() {
+        String v = parameters.get(Constants.teamCityVersion_key, (String) null);
+        return v != null ? v : "no-version-passed-from-server";
+    }
     
+    @Override
+    public String toString() {
+        return parameters.toString();
+    }
 }

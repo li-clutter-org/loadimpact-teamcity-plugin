@@ -19,8 +19,10 @@ public class LoadImpactSettings {
     private final Debug  debug    = new Debug(this);
     private final String fileName = "loadimpact.properties";
     private final  File               settingsFile;
-    private        String             apiToken;
     private static LoadImpactSettings _instance;
+    
+    private        String             apiToken;
+    private        String             teamCityVersion;
 
     public LoadImpactSettings(@NotNull ServerPaths serverPaths) {
         _instance = this;
@@ -46,6 +48,14 @@ public class LoadImpactSettings {
         this.apiToken = apiToken;
     }
 
+    public String getTeamCityVersion() {
+        return teamCityVersion;
+    }
+
+    public void setTeamCityVersion(String teamCityVersion) {
+        this.teamCityVersion = teamCityVersion;
+    }
+
     public File getSettingsFile() {
         return settingsFile;
     }
@@ -54,7 +64,10 @@ public class LoadImpactSettings {
         try {
             FileWriter out = new FileWriter(settingsFile);
             Properties p = new Properties();
+            
             p.setProperty(Constants.apiToken_key, apiToken);
+            p.setProperty(Constants.teamCityVersion_key, teamCityVersion);
+            
             p.store(out, "");
             out.close();
         } catch (IOException e) {
@@ -72,6 +85,7 @@ public class LoadImpactSettings {
             debug.print("Settings loaded: %s", p);
 
             apiToken = p.getProperty(Constants.apiToken_key);
+            teamCityVersion = p.getProperty(Constants.teamCityVersion_key);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

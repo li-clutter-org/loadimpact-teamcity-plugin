@@ -39,11 +39,13 @@ public abstract class FutureBasedBuildProcess implements BuildProcess, Callable<
             LOG.info("Build process was finished");
             return status;
         } catch (final InterruptedException e) {
-            throw new RunBuildException(e);
+            LOG.warn("Build process was interrupted", e);
+            return BuildFinishedStatus.FINISHED_WITH_PROBLEMS;
         } catch (final ExecutionException e) {
-            throw new RunBuildException(e);
+            LOG.error(e.getMessage());
+            return BuildFinishedStatus.FINISHED_FAILED;
         } catch (final CancellationException e) {
-            LOG.info("Build process was interrupted", e);
+            LOG.warn("Build process was cancelled", e);
             return BuildFinishedStatus.INTERRUPTED;
         }
     }

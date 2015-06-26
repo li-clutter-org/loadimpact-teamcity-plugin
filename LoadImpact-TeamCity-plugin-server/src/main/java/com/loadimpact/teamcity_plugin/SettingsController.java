@@ -27,10 +27,12 @@ public class SettingsController extends BaseController {
     public static final String URI   = "/saveSettings.html";
     @NotNull
     private final LoadImpactSettings settings;
+    private String teamCityVersion;
 
 
     public SettingsController(@NotNull SBuildServer server, @NotNull WebControllerManager web, @NotNull LoadImpactSettings settings) {
         super(server);
+        this.teamCityVersion = server.getFullServerVersion();
         this.settings = settings;
         web.registerController(URI, this);
     }

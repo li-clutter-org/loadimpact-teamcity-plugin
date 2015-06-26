@@ -15,8 +15,7 @@
 <%
     Debug debug = new Debug("[LoadImpact] EditLIRT.jsp");
     Debug.setEnabled(true);
-    debug.print("initializing...");
-
+    
     Map<String, String> settings = propertiesBean.getProperties();
     debug.print("settings: %s", settings);
     json.setSettings(settings);

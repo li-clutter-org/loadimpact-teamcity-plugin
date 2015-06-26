@@ -44,8 +44,12 @@ public class ApiController extends BaseController {
     protected ModelAndView doHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws Exception {
         String task = request.getParameter("task");
         debug.print("doHandle: task=%s", task);
-
+        
+//        debug.print("server.full.version=%s", super.myServer.getFullServerVersion());
+//        debug.print("server.version=%d.%d", super.myServer.getServerMajorVersion(), super.myServer.getServerMinorVersion());
         settings.load();
+        settings.setTeamCityVersion(super.myServer.getFullServerVersion());
+        settings.store();
 
         PrintWriter out = response.getWriter();
         try {
@@ -95,7 +99,7 @@ public class ApiController extends BaseController {
         JsonObject obj = Json.createObjectBuilder()
                 .add("id", cfg.id)
                 .add("name", cfg.name)
-                .add("url", cfg.url.toString())
+                .add("url", toString(cfg.url))
                 .build();
 
         StringWriter buf = new StringWriter();
@@ -113,10 +117,12 @@ public class ApiController extends BaseController {
         client.setDebug(true);
         List<TestConfiguration> testConfigurations = client.getTestConfigurations();
         {
+            StringBuilder buf = new StringBuilder(10000);
             int cnt = 1;
             for (TestConfiguration tc : testConfigurations) {
-                debug.print("[%d] %s", cnt++, tc);
+                buf.append(String.format("[%d] %s%n", cnt++, tc));
             }
+            debug.print("Test Configurations:%n%s", buf.toString());
         }
 
         JsonArrayBuilder builder = Json.createArrayBuilder();
@@ -133,7 +139,7 @@ public class ApiController extends BaseController {
         Json.createWriter(buf).writeArray(builder.build());
         String payload = buf.toString();
 
-        debug.print("testConfigurations: %s", payload);
+        debug.print("JSON test-cfg: %s", payload);
         out.println(payload);
     }
 

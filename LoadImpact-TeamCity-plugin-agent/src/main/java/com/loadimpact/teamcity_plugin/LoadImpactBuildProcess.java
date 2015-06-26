@@ -21,6 +21,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +39,10 @@ import static com.loadimpact.resource.testresult.StandardMetricResult.Metrics.US
  */
 public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
     private final Debug debug = new Debug(this);
-    private final AgentRunningBuild  build;
-    private final BuildRunnerContext context;
-    private final ArtifactsWatcher   artifactsWatcher;
+    private final     AgentRunningBuild  build;
+    private final     BuildRunnerContext context;
+    private final     ArtifactsWatcher   artifactsWatcher;
+    private transient String             agentRequestHeaderValue;
 
     public LoadImpactBuildProcess(AgentRunningBuild build, BuildRunnerContext context, ArtifactsWatcher artifactsWatcher) {
         this.build = build;
@@ -48,32 +50,61 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         this.artifactsWatcher = artifactsWatcher;
     }
 
-    public BuildFinishedStatus call() throws Exception {
-        final TeamCityLoadTestLogger logger = new TeamCityLoadTestLogger(build.getBuildLogger());
-        logger.started("Load Test");
-
-        LoadTestParameters params = new TeamCityLoadTestParameters(new Parameters(context.getRunnerParameters()));
-        Debug.setEnabled(params.isLogDebug()  /*params.get(Constants.logDebug_key, false)*/);
-        debug.print(params.toString());
-
-        String apiToken = params.getApiToken() /*params.get(Constants.apiToken_key, "")*/;
+    public ApiTokenClient getApiTokenClient(TeamCityLoadTestParameters params) throws RunBuildException {
+        String apiToken = params.getApiToken();
         if (StringUtils.isBlank(apiToken)) {
             throw new RunBuildException("Empty API Token");
         }
         final ApiTokenClient client = new ApiTokenClient(apiToken);
-        client.setDebug(params.isLogHttp()  /*params.get(Constants.logHttp_key, false)*/);
+        client.setDebug(params.isLogHttp());
+        client.setAgentRequestHeaderValue(getAgentRequestHeaderValue(params));
+        return client;
+    }
 
+    public String getAgentRequestHeaderValue(TeamCityLoadTestParameters params) {
+        if (agentRequestHeaderValue == null) {
+            String pluginVersion = getMavenPomData().getProperty("version", "0.0.0");
+            String teamCityVersion = params.getTeamCityVersion();
+            agentRequestHeaderValue = String.format("LoadImpactTeamCityPlugin/%s TeamCity/%s", pluginVersion, teamCityVersion);
+            debug.print("Agent REQ HDR: %s", agentRequestHeaderValue);
+        }
+        return agentRequestHeaderValue;
+    }
+
+    public Properties getMavenPomData() {
+        Properties  p       = new Properties();
+        String      pomFile = "/META-INF/maven/com.loadimpact/LoadImpact-TeamCity-plugin-agent/pom.properties";
+        InputStream is      = getClass().getResourceAsStream(pomFile);
+        if (is != null) {
+            try {
+                p.load(is);
+            } catch (IOException ignore) {
+            }
+        }
+        return p;
+    }
+
+
+    public BuildFinishedStatus call() throws Exception {
+        final TeamCityLoadTestLogger logger = new TeamCityLoadTestLogger(build.getBuildLogger());
+        logger.started("Load Test");
+
+        TeamCityLoadTestParameters params = new TeamCityLoadTestParameters(new Parameters(context.getRunnerParameters()));
+        Debug.setEnabled(params.isLogDebug());
+        debug.print(params.toString());
+
+        final ApiTokenClient           client           = getApiTokenClient(params);
         TeamCityLoadTestResultListener resultListener   = new TeamCityLoadTestResultListener(logger, build);
         LoadTestListener               loadTestListener = new LoadTestListener(params, logger, resultListener);
-
+        
         logger.message("Fetching the test-configuration");
-        TestConfiguration testConfiguration = client.getTestConfiguration(params.getTestConfigurationId()  /*params.get(Constants.testConfigurationId_key, 0)*/);
+        TestConfiguration testConfiguration = client.getTestConfiguration(params.getTestConfigurationId());
         loadTestListener.onSetup(testConfiguration, client);
 
         logger.message("Launching the load test");
         int testId = client.startTest(testConfiguration.id);
 
-        Test test = client.monitorTest(testId, params.getPollInterval() /*params.get(Constants.pollInterval_key, 5)*/, loadTestListener);
+        Test test = client.monitorTest(testId, params.getPollInterval(), loadTestListener);
 
         Properties results = new Properties();
         if (test == null) {

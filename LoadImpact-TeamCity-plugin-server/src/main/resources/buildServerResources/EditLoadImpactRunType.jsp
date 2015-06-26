@@ -18,7 +18,6 @@
 <%
     Debug debug = new Debug("[LoadImpact] EditLIRT.jsp");
     Debug.setEnabled(true);
-    debug.print("initializing...");
     
     Map<String, String> settings = propertiesBean.getProperties();
     debug.print("settings: %s", settings);
@@ -31,6 +30,7 @@
     
     request.setAttribute("delayUnits", com.loadimpact.eval.DelayUnit.values());
     request.setAttribute("apiToken", LoadImpactSettings.instance().getApiToken());
+    request.setAttribute("teamCityVersion", LoadImpactSettings.instance().getTeamCityVersion());
 %>
 
 <%--
@@ -214,6 +214,7 @@
     HTML Contents
 --%>
 <props:hiddenProperty name="api.token" value="${apiToken}" />
+<props:hiddenProperty name="teamcity.version" value="${teamCityVersion}" />
 
 <l:settingsGroup title="Load Test Configuration">
     <tr>
