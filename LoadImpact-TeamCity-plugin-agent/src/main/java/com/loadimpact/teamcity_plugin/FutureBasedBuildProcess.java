@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 
 /**
- * DESCRIPTION
+ * Base of the build-process and provides the executor context.
  *
  * @author jens
  */
@@ -35,16 +35,16 @@ public abstract class FutureBasedBuildProcess implements BuildProcess, Callable<
     @NotNull
     public BuildFinishedStatus waitFor() throws RunBuildException {
         try {
-            final BuildFinishedStatus status = futureStatus.get();
+            BuildFinishedStatus status = futureStatus.get();
             LOG.info("Build process was finished");
             return status;
-        } catch (final InterruptedException e) {
+        } catch (InterruptedException e) {
             LOG.warn("Build process was interrupted", e);
             return BuildFinishedStatus.FINISHED_WITH_PROBLEMS;
-        } catch (final ExecutionException e) {
+        } catch (ExecutionException e) {
             LOG.error(e.getMessage());
-            return BuildFinishedStatus.FINISHED_FAILED;
-        } catch (final CancellationException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (CancellationException e) {
             LOG.warn("Build process was cancelled", e);
             return BuildFinishedStatus.INTERRUPTED;
         }

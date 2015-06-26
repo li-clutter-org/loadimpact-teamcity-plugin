@@ -96,15 +96,21 @@ public class LoadImpactBuildProcess extends FutureBasedBuildProcess {
         final ApiTokenClient           client           = getApiTokenClient(params);
         TeamCityLoadTestResultListener resultListener   = new TeamCityLoadTestResultListener(logger, build);
         LoadTestListener               loadTestListener = new LoadTestListener(params, logger, resultListener);
-        
-        logger.message("Fetching the test-configuration");
-        TestConfiguration testConfiguration = client.getTestConfiguration(params.getTestConfigurationId());
-        loadTestListener.onSetup(testConfiguration, client);
 
-        logger.message("Launching the load test");
-        int testId = client.startTest(testConfiguration.id);
+        Test test;
+        try {
+            logger.message("Fetching the test-configuration");
+            TestConfiguration testConfiguration = client.getTestConfiguration(params.getTestConfigurationId());
+            loadTestListener.onSetup(testConfiguration, client);
 
-        Test test = client.monitorTest(testId, params.getPollInterval(), loadTestListener);
+            logger.message("Launching the load test");
+            int testId = client.startTest(testConfiguration.id);
+
+            test = client.monitorTest(testId, params.getPollInterval(), loadTestListener);
+        } catch (Exception x) {
+            logger.failure(x.getMessage());
+            return BuildFinishedStatus.FINISHED_FAILED;
+        }
 
         Properties results = new Properties();
         if (test == null) {
