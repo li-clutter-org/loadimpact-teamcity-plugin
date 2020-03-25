@@ -1,6 +1,12 @@
 Load Impact TeamCity Plugin
 ====
 
+This project is deprecated because it integrates TeamCity with the LoadImpact V3 cloud service that will sunset at the end of 2020.
+
+If you want to use TeamCity to run performance or load tests, check out the tutorial: [How to automate Load Testing with k6 in TeamCity builds](https://k6.io/blog/load-testing-using-teamcity-and-k6)
+
+
+----
 
 A plugin for the [TeamCity CI Server](https://www.jetbrains.com/teamcity/), that run load-tests 
 hosted on [Load Impact](https://loadimpact.com/), as a build step. 
